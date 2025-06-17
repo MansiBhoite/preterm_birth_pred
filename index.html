@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preterm Delivery Prediction</title>
+    <link rel="icon" href="{{ url_for('static', filename='icon.jpg') }}" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url('/static/bg1.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;  /* Stacks the icon and title vertically */
+            align-items: center;    /* Centers both items horizontally */
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin: 10px 0;
+        }
+
+        header img {
+            width: 100px;
+            height: 100px;
+            border-radius: 47px;  /* Circular image */
+        }
+
+        .content {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        form {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            margin: 20px auto;
+            width: 300px;
+            border-radius: 8px;
+        }
+
+        form input,
+        form button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        form button {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .message {
+            color: #ff0000;
+            margin-top: 10px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="{{ url_for('static', filename='icon.jpg') }}" alt="Project Icon">
+    <h1>Preterm Delivery Prediction</h1>
+</header>
+
+<div class="content">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="message">
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    {% endwith %}
+
+    <form action="/train" method="POST">
+        <label for="dataset">Dataset Path:</label>
+        <input type="text" id="dataset" name="dataset" required>
+        <button type="submit">Train Model</button>
+    </form>
+
+    <form action="/predict" method="POST" enctype="multipart/form-data">
+        <label for="gsr_file">GSR File:</label>
+        <input type="file" id="gsr_file" name="gsr_file" required><br>
+        <label for="pulse_file">Pulse File:</label>
+        <input type="file" id="pulse_file" name="pulse_file" required><br>
+        <label for="motion_file">Motion File:</label>
+        <input type="file" id="motion_file" name="motion_file" required><br>
+        <button type="submit">Predict</button>
+    </form>
+</div>
+
+<footer>
+    <p>&copy; 2025 Preterm Delivery Prediction Project</p>
+</footer>
+
+</body>
+</html>
